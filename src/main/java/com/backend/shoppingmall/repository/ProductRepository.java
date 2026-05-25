@@ -14,4 +14,8 @@ public class ProductRepository {
     public void save(Product product) {
         em.persist(product);
     }
+
+    public Product findById(Long id) {
+        return em.find(Product.class , id);
+    }
 }

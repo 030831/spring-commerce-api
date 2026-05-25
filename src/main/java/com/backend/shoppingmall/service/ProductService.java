@@ -18,4 +18,9 @@ public class ProductService {
         productRepository.save(product);
         return product.getId();
     }
+
+    @Transactional(readOnly = true)
+    public Product findProduct(Long productId) {
+        return productRepository.findById(productId);
+    }
 }
