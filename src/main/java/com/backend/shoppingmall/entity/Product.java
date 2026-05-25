@@ -13,11 +13,18 @@ public class Product {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false,length = 100)
     private String name;
 
-    private int price;
+    @Column(nullable = false)
+    private Long price;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at" , nullable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
 }
