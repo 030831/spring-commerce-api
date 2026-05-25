@@ -10,6 +10,14 @@ import java.time.LocalDateTime;
 @Getter
 public class Product {
 
+    protected Product() {}
+
+
+    public Product(String name, Long price) {
+        this.name = name;
+        this.price = price;
+    }
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
