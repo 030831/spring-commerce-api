@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class ProductServiceTest {
@@ -14,7 +14,7 @@ class ProductServiceTest {
     ProductService productService;
 
     @Test
-    void 상품_생셩() {
+    void 상품_생성() {
         // given
         String name = "상품A";
         Long price = 10000L;
@@ -23,6 +23,6 @@ class ProductServiceTest {
         Long productId = productService.createProduct(name, price);
 
         //then
-        Assertions.assertThat(productId).isNotNull();
+        assertThat(productId).isNotNull();
     }
 }
