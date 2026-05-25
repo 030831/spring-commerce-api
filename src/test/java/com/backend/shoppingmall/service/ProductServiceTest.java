@@ -1,15 +1,17 @@
 package com.backend.shoppingmall.service;
 
 import com.backend.shoppingmall.entity.Product;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Slf4j
 @SpringBootTest
+@Transactional
 class ProductServiceTest {
 
     @Autowired
@@ -41,5 +43,19 @@ class ProductServiceTest {
         //then
         assertThat(product.getName()).isEqualTo(name);
         assertThat(product.getPrice()).isEqualTo(price);
+    }
+
+    @Test
+    void 상품_목록_조회() {
+        // given
+        productService.createProduct("상품A", 10000L);
+        productService.createProduct("상품B", 20000L);
+
+        //when
+        List<Product> products = productService.findProducts();
+
+        //then
+        assertThat(products).hasSize(2);
+
     }
 }

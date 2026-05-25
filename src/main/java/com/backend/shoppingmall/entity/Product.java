@@ -10,25 +10,26 @@ import java.time.LocalDateTime;
 @Getter
 public class Product {
 
-    protected Product() {}
-
-
-    public Product(String name, Long price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
 
     @Column(nullable = false)
     private Long price;
 
-    @Column(name = "created_at" , nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    protected Product() {
+    }
+
+    public Product(String name, Long price) {
+        this.name = name;
+        this.price = price;
+    }
 
     @PrePersist
     public void prePersist() {

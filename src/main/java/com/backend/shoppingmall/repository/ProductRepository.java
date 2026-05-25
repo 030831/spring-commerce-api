@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class ProductRepository {
@@ -16,6 +18,10 @@ public class ProductRepository {
     }
 
     public Product findById(Long id) {
-        return em.find(Product.class , id);
+        return em.find(Product.class, id);
+    }
+
+    public List<Product> findAll() {
+        return em.createQuery("select p from Product p", Product.class).getResultList();
     }
 }
