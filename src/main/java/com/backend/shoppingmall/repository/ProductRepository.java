@@ -25,4 +25,8 @@ public class ProductRepository {
         return em.createQuery("select p from Product p", Product.class)
                 .getResultList();
     }
+
+    public void delete(Product product) {
+        em.remove(product);
+    }
 }

@@ -27,10 +27,10 @@ class ProductServiceTest {
         String name = "상품A";
         Long price = 10000L;
 
-        //when
+        // when
         Long productId = productService.createProduct(name, price);
 
-        //then
+        // then
         assertThat(productId).isNotNull();
     }
 
@@ -41,10 +41,10 @@ class ProductServiceTest {
         Long price = 20000L;
         Long productId = productService.createProduct(name, price);
 
-        //when
+        // when
         Product product = productService.findProduct(productId);
 
-        //then
+        // then
         assertThat(product.getName()).isEqualTo(name);
         assertThat(product.getPrice()).isEqualTo(price);
     }
@@ -55,30 +55,43 @@ class ProductServiceTest {
         productService.createProduct("상품A", 10000L);
         productService.createProduct("상품B", 20000L);
 
-        //when
+        // when
         List<Product> products = productService.findProducts();
 
-        //then
+        // then
         assertThat(products).hasSize(2);
     }
 
     @Test
     void 상품_정보_수정() {
         // given
-
         Long productId = productService.createProduct("상품A", 10000L);
 
-        //when
+        // when
         String changedName = "상품B";
         Long changedPrice = 20000L;
         productService.updateProduct(productId, changedName, changedPrice);
         em.flush();
         em.clear();
 
-        //then
+        // then
         Product product = productService.findProduct(productId);
-        assertThat(product.getPrice()).isEqualTo(changedPrice);
         assertThat(product.getName()).isEqualTo(changedName);
+        assertThat(product.getPrice()).isEqualTo(changedPrice);
+    }
 
+    @Test
+    void 상품_삭제() {
+        // given
+        Long productId = productService.createProduct("상품A", 10000L);
+
+        // when
+        productService.deleteProduct(productId);
+        em.flush();
+        em.clear();
+
+        // then
+        assertThat(productService.findProduct(productId))
+                .isNull();
     }
 }
