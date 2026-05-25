@@ -1,6 +1,7 @@
 package com.backend.shoppingmall.service;
 
 import com.backend.shoppingmall.entity.Product;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,9 @@ class ProductServiceTest {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    EntityManager em;
 
     @Test
     void 상품_생성() {
@@ -56,6 +60,25 @@ class ProductServiceTest {
 
         //then
         assertThat(products).hasSize(2);
+    }
+
+    @Test
+    void 상품_정보_수정() {
+        // given
+
+        Long productId = productService.createProduct("상품A", 10000L);
+
+        //when
+        String changedName = "상품B";
+        Long changedPrice = 20000L;
+        productService.updateProduct(productId, changedName, changedPrice);
+        em.flush();
+        em.clear();
+
+        //then
+        Product product = productService.findProduct(productId);
+        assertThat(product.getPrice()).isEqualTo(changedPrice);
+        assertThat(product.getName()).isEqualTo(changedName);
 
     }
 }

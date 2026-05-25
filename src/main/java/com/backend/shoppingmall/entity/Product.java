@@ -36,4 +36,9 @@ public class Product {
         this.createdAt = LocalDateTime.now();
     }
 
+    public void changeInfo(String name, Long price) {
+        this.name = name;
+        this.price = price;
+    }
+
 }

@@ -30,4 +30,11 @@ public class ProductService {
     public List<Product> findProducts() {
         return productRepository.findAll();
     }
+
+    @Transactional
+    public void updateProduct(Long productId, String name, Long price) {
+        Product product = productRepository.findById(productId);
+        product.changeInfo(name, price);
+    }
+
 }
