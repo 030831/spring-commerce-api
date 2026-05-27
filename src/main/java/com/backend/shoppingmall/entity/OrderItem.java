@@ -22,7 +22,7 @@ public class OrderItem {
     private Product product;
 
     @Column(name = "order_price")
-    private int orderPrice;
+    private Long orderPrice;
 
     private int quantity;
 
