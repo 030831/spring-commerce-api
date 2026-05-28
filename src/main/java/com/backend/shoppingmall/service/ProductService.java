@@ -15,6 +15,14 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    private Product findProductOrThrow(Long productId) {
+        Product product = productRepository.findById(productId);
+        if (product == null) {
+            throw new ProductNotFoundException("해당 상품은 존재하지 않습니다.");
+        }
+        return product;
+    }
+
     @Transactional
     public Long createProduct(String name, Long price) {
         Product product = new Product(name, price);
@@ -24,11 +32,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Product findProduct(Long productId) {
-        Product product = productRepository.findById(productId);
-        if (product == null) {
-            throw new ProductNotFoundException("해당 상품은 존재하지 않습니다.");
-        }
-        return product;
+        return findProductOrThrow(productId);
     }
 
     @Transactional(readOnly = true)
@@ -38,23 +42,13 @@ public class ProductService {
 
     @Transactional
     public void updateProduct(Long productId, String name, Long price) {
-        Product product = productRepository.findById(productId);
-
-        if (product == null) {
-            throw new ProductNotFoundException("해당 상품은 존재하지 않습니다.");
-        }
-
+        Product product = findProductOrThrow(productId);
         product.changeInfo(name, price);
     }
 
     @Transactional
     public void deleteProduct(Long productId) {
-        Product product = productRepository.findById(productId);
-
-        if (product == null) {
-            throw new ProductNotFoundException("해당 상품은 존재하지 않습니다.");
-        }
-
+        Product product = findProductOrThrow(productId);
         productRepository.delete(product);
     }
 }
