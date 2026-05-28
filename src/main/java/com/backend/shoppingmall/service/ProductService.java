@@ -1,6 +1,7 @@
 package com.backend.shoppingmall.service;
 
 import com.backend.shoppingmall.entity.Product;
+import com.backend.shoppingmall.exception.ProductNotFoundException;
 import com.backend.shoppingmall.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,11 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Product findProduct(Long productId) {
-        return productRepository.findById(productId);
+        Product product = productRepository.findById(productId);
+        if (product == null) {
+            throw new ProductNotFoundException("해당 상품은 존재하지 않습니다.");
+        }
+        return product;
     }
 
     @Transactional(readOnly = true)
@@ -34,12 +39,22 @@ public class ProductService {
     @Transactional
     public void updateProduct(Long productId, String name, Long price) {
         Product product = productRepository.findById(productId);
+
+        if (product == null) {
+            throw new ProductNotFoundException("해당 상품은 존재하지 않습니다.");
+        }
+
         product.changeInfo(name, price);
     }
 
     @Transactional
     public void deleteProduct(Long productId) {
         Product product = productRepository.findById(productId);
+
+        if (product == null) {
+            throw new ProductNotFoundException("해당 상품은 존재하지 않습니다.");
+        }
+
         productRepository.delete(product);
     }
 }
