@@ -95,4 +95,10 @@ class ProductServiceTest {
         assertThatThrownBy(() -> productService.findProduct(productId))
                 .isInstanceOf(ProductNotFoundException.class);
     }
+
+    @Test
+    void 존재하지_않는_상품_조회시_예외_발생() {
+        assertThatThrownBy(() -> productService.findProduct(999L))
+                .isInstanceOf(ProductNotFoundException.class);
+    }
 }
