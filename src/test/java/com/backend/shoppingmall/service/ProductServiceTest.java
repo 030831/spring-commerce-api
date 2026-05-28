@@ -1,6 +1,7 @@
 package com.backend.shoppingmall.service;
 
 import com.backend.shoppingmall.entity.Product;
+import com.backend.shoppingmall.exception.ProductNotFoundException;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,7 @@ class ProductServiceTest {
         em.clear();
 
         // then
-        assertThat(productService.findProduct(productId))
-                .isNull();
+        assertThatThrownBy(() -> productService.findProduct(productId))
+                .isInstanceOf(ProductNotFoundException.class);
     }
 }
