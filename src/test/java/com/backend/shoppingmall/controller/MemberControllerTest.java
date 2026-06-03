@@ -55,6 +55,17 @@ class MemberControllerTest {
         mockMvc.perform(
                 get("/api/members/{memberId}", memberId)
         ).andExpect(status().isOk());
-
     }
+
+    @Test
+    void 존재하지_않는_회원_조회_API_실패() throws Exception {
+        // given
+        Long notFoundMemberId = Long.MAX_VALUE;
+
+        // when & then
+        mockMvc.perform(
+                get("/api/members/{memberId}", notFoundMemberId)
+        ).andExpect(status().isNotFound());
+    }
+
 }
