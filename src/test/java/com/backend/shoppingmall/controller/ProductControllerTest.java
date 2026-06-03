@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,5 +55,13 @@ class ProductControllerTest {
                                 .content(requestBody)
                 )
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 없는_상품_id_조회_API_404_테스트() throws Exception {
+        mockMvc.perform(
+                        get("/api/products/{productId}", 999L)
+                )
+                .andExpect(status().isNotFound());
     }
 }
