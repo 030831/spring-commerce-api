@@ -31,12 +31,28 @@ class ProductControllerTest {
                 """;
 
         // when & then
+
         mockMvc.perform(
                         post("/api/products")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody)
                 )
                 .andExpect(status().isOk());
+    }
 
+    @Test
+    void 상품_생성_API_상품명_검증_실패() throws Exception {
+        String requestBody = """
+                {
+                    "name" : "",
+                    "price" : 1000
+                }
+                """;
+        mockMvc.perform(
+                        post("/api/products")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody)
+                )
+                .andExpect(status().isBadRequest());
     }
 }
