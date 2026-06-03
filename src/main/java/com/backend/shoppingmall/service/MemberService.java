@@ -1,6 +1,7 @@
 package com.backend.shoppingmall.service;
 
 import com.backend.shoppingmall.entity.Member;
+import com.backend.shoppingmall.exception.MemberNotFoundException;
 import com.backend.shoppingmall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,13 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member findMember(Long memberId) {
-        return memberRepository.findById(memberId);
+
+        Member member = memberRepository.findById(memberId);
+        if (member == null) {
+            throw new MemberNotFoundException("존재하지 않는 회원입니다.");
+        }
+
+        return member;
     }
 
 }
