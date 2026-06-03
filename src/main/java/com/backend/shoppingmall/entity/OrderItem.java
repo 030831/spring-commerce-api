@@ -21,10 +21,25 @@ public class OrderItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "order_price")
+    @Column(name = "order_price", nullable = false)
     private Long orderPrice;
 
+    @Column(nullable = false)
     private int quantity;
+
+    @Column(name = "product_name", nullable = false)
+    private String productName;
+
+    protected OrderItem() {
+
+    }
+
+    public OrderItem(Product product, int quantity) {
+        this.product = product;
+        this.productName = product.getName();
+        this.orderPrice = product.getPrice();
+        this.quantity = quantity;
+    }
 
     public void setOrder(Order order) {
         this.order = order;
