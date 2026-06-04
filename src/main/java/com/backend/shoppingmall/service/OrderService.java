@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -27,5 +29,11 @@ public class OrderService {
         order.addOrderItem(orderItem);
         orderRepository.save(order);
         return order.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Order> findOrdersByMemberId(Long memberId) {
+        memberService.findMember(memberId);
+        return orderRepository.findByMemberId(memberId);
     }
 }
