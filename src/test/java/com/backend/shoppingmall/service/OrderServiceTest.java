@@ -1,9 +1,12 @@
 package com.backend.shoppingmall.service;
 
+import com.backend.shoppingmall.entity.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -32,5 +35,20 @@ class OrderServiceTest {
 
         // then
         assertThat(orderId).isNotNull();
+    }
+
+    @Test
+    void 회원별_주문_목록_조회_테스트() {
+        // given
+        Long memberId = memberService.createMember("홍길동", "test@gmail.com");
+        Long productId = productService.createProduct("바나나", 10000L);
+        int quantity = 10;
+        orderService.createOrder(memberId, productId, quantity);
+
+        // when
+        List<Order> orders = orderService.findOrdersByMemberId(memberId);
+
+        // then
+        assertThat(orders).hasSize(1);
     }
 }
