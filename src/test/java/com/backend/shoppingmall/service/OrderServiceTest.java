@@ -51,4 +51,18 @@ class OrderServiceTest {
         // then
         assertThat(orders).hasSize(1);
     }
+
+    @Test
+    void 주문_단건_조회_테스트() {
+        // given
+        Long memberId = memberService.createMember("홍길동", "test@gmail.com");
+        Long productId = productService.createProduct("바나나", 10000L);
+        Long orderId = orderService.createOrder(memberId, productId, 1);
+
+        // when
+        Order findOrder = orderService.findOrder(orderId);
+
+        // then
+        assertThat(orderId).isEqualTo(findOrder.getId());
+    }
 }
