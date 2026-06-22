@@ -2,6 +2,7 @@ package com.backend.shoppingmall.controller;
 
 import com.backend.shoppingmall.dto.member.MemberCreateRequest;
 import com.backend.shoppingmall.dto.member.MemberResponse;
+import com.backend.shoppingmall.dto.member.MemberUpdateRequest;
 import com.backend.shoppingmall.dto.order.OrderResponse;
 import com.backend.shoppingmall.service.MemberService;
 import com.backend.shoppingmall.service.OrderService;
@@ -35,5 +36,10 @@ public class MemberController {
                 .stream()
                 .map(OrderResponse::new)
                 .toList();
+    }
+
+    @PatchMapping("/{memberId}")
+    public void updateMember(@PathVariable Long memberId, @Valid @RequestBody MemberUpdateRequest request) {
+        memberService.updateMember(memberId, request.getName(), request.getEmail());
     }
 }

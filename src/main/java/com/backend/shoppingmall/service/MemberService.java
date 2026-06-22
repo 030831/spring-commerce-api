@@ -31,4 +31,9 @@ public class MemberService {
         return member;
     }
 
+    @Transactional
+    public void updateMember(Long memberId, String name, String email) {
+        Member member = findMember(memberId);
+        member.changeInfo(name, email);
+    }
 }
