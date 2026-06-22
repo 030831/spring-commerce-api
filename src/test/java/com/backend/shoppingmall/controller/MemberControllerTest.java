@@ -1,6 +1,8 @@
 package com.backend.shoppingmall.controller;
 
 import com.backend.shoppingmall.service.MemberService;
+import com.backend.shoppingmall.service.OrderService;
+import com.backend.shoppingmall.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,6 +28,12 @@ class MemberControllerTest {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    ProductService productService;
+
+    @Autowired
+    OrderService orderService;
 
     @Test
     void 회원_생성_API_성공() throws Exception {
@@ -66,6 +74,21 @@ class MemberControllerTest {
         mockMvc.perform(
                 get("/api/members/{memberId}", notFoundMemberId)
         ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void 회원별_주문_목록_조회_API_성공() throws Exception {
+        // given
+
+        Long memberId = memberService.createMember("홍길동", "test@gmail.com");
+        Long productId = productService.createProduct("바나나", 1000L);
+        orderService.createOrder(memberId, productId, 1);
+
+        // when & then
+        mockMvc.perform(
+                get("/api/members/{memberId}/orders", memberId)
+        ).andExpect(status().isOk());
+
     }
 
 }
