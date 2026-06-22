@@ -36,4 +36,9 @@ public class OrderService {
         memberService.findMember(memberId);
         return orderRepository.findByMemberId(memberId);
     }
+
+    @Transactional(readOnly = true)
+    public Order findOrder(Long orderId) {
+        return orderRepository.findById(orderId);
+    }
 }
