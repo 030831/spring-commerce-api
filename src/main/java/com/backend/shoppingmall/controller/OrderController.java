@@ -24,4 +24,9 @@ public class OrderController {
     public OrderResponse findOrder(@PathVariable Long orderId) {
         return new OrderResponse(orderService.findOrder(orderId));
     }
+
+    @PatchMapping("/{orderId}/cancel")
+    public void cancelOrder(@PathVariable Long orderId) {
+        orderService.cancelOrder(orderId);
+    }
 }
